@@ -1,29 +1,79 @@
-import React from "react";
+/* global google */
+import React, { useEffect } from "react";
 import registration from "../Images/registration.jpeg";
+import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../store/LoginSlice";
+import { enqueueSnackbar } from "notistack";
 
 export default function Register() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  function handleCallbackResponse(response) {
+    console.log("encoded jwt: ", response.credential);
+    var userobject = jwtDecode(response.credential);
+    console.log(userobject);
+    // localStorage.setItem("email", userobject.email);
+    // localStorage.setItem("picture", userobject.picture);
+    dispatch(
+      login({
+        name: userobject.name,
+        email: userobject.email,
+        picture: userobject.picture,
+        loggedIn: true,
+        isgoogle: true,
+      })
+    );
+    enqueueSnackbar("Login Successfully", {
+      variant: "success",
+      autoHideDuration: 2000,
+      anchorOrigin: {
+        vertical: "top",
+        horizontal: "center",
+      },
+    });
+    navigate("/");
+  }
+
+  useEffect(() => {
+    google.accounts.id.initialize({
+      client_id:
+        "907540073277-32lcm26s3gfltgbb9h84urnqts7ri7rk.apps.googleusercontent.com",
+      callback: handleCallbackResponse,
+    });
+
+    google.accounts.id.renderButton(document.getElementById("logindiv"), {
+      theme: "filled_black",
+      size: "large",
+      text: "continue_with",
+      shape: "pill",
+    });
+  }, []);
+
   return (
     <>
-      <section style={{ backgroundColor: "#eee;" }}>
-        <div class="container h-100">
-          <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col-lg-12 col-xl-11">
-              <div class="card text-black" style={{ borderRadius: "25px;" }}>
-                <div class="card-body p-md-1">
-                  <div class="row justify-content-center">
+      <section style={{ backgroundColor: "17A2B8" }}>
+        <div className="container h-100">
+          <div className="row d-flex justify-content-center align-items-center h-100">
+            <div className="col-lg-12 col-xl-11">
+              <div className="card text-black" style={{ borderRadius: "25px" }}>
+                <div className="card-body p-md-1">
+                  <div className="row justify-content-center">
                     <div
-                      class="col-md-10 col-lg-6 col-xl-6 order-2 order-lg-1"
+                      className="col-md-10 col-lg-6 col-xl-6 order-2 order-lg-1"
                       // style={{ backgroundColor: "yellow" }}
                     >
-                      <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
+                      <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
                         Sign up
                       </p>
 
-                      <form class="mx-1 mx-md-4">
-                        <div class="d-flex flex-row align-items-center mb-4">
-                          <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                      <form className="mx-1 mx-md-5">
+                        <div className="d-flex flex-row align-items-center mb-4">
+                          <i className="fas fa-user fa-lg me-3 fa-fw"></i>
                           <div
-                            class="form-outline flex-fill mb-0"
+                            className="form-outline flex-fill mb-0"
                             style={{
                               borderStyle: "outset",
                               borderColor: "#E5E5E2",
@@ -32,63 +82,72 @@ export default function Register() {
                             <input
                               type="text"
                               id="form3Example1c"
-                              class="form-control"
+                              className="form-control"
                               placeholder="Enter full name"
                               required
                             />
                           </div>
                         </div>
 
-                        <div class="d-md-flex justify-content-start align-items-center mb-4 py-2">
-                          <h6 class="mb-0 me-4">Gender: </h6>
+                        <div className="d-md-flex justify-content-start align-items-center mb-4 py-2">
+                          <h6 className="mb-0 me-4">Gender: </h6>
 
-                          <div class="form-check form-check-inline mb-0 me-4">
+                          <div className="form-check form-check-inline mb-0 me-4">
                             <input
-                              class="form-check-input"
+                              className="form-check-input"
                               type="radio"
                               name="inlineRadioOptions"
                               id="femaleGender"
                               value="option1"
                               required
                             />
-                            <label class="form-check-label" for="femaleGender">
+                            <label
+                              className="form-check-label"
+                              htmlFor="femaleGender"
+                            >
                               Female
                             </label>
                           </div>
 
-                          <div class="form-check form-check-inline mb-0 me-4">
+                          <div className="form-check form-check-inline mb-0 me-4">
                             <input
-                              class="form-check-input"
+                              className="form-check-input"
                               type="radio"
                               name="inlineRadioOptions"
                               id="maleGender"
                               value="option2"
                               required
                             />
-                            <label class="form-check-label" for="maleGender">
+                            <label
+                              className="form-check-label"
+                              htmlFor="maleGender"
+                            >
                               Male
                             </label>
                           </div>
 
-                          <div class="form-check form-check-inline mb-0">
+                          <div className="form-check form-check-inline mb-0">
                             <input
-                              class="form-check-input"
+                              className="form-check-input"
                               type="radio"
                               name="inlineRadioOptions"
                               id="otherGender"
                               value="option3"
                               required
                             />
-                            <label class="form-check-label" for="otherGender">
+                            <label
+                              className="form-check-label"
+                              htmlFor="otherGender"
+                            >
                               Other
                             </label>
                           </div>
                         </div>
 
-                        <div class="d-flex flex-row align-items-center mb-4">
-                          <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                        <div className="d-flex flex-row align-items-center mb-4">
+                          <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
                           <div
-                            class="form-outline flex-fill mb-0"
+                            className="form-outline flex-fill mb-0"
                             style={{
                               borderStyle: "outset",
                               borderColor: "#E5E5E2",
@@ -97,17 +156,17 @@ export default function Register() {
                             <input
                               type="email"
                               id="form3Example3c"
-                              class="form-control"
+                              className="form-control"
                               placeholder="Enter Email ID"
                               required
                             />
                           </div>
                         </div>
 
-                        <div class="d-flex flex-row align-items-center mb-4">
-                          <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                        <div className="d-flex flex-row align-items-center mb-4">
+                          <i className="fas fa-lock fa-lg me-3 fa-fw"></i>
                           <div
-                            class="form-outline flex-fill mb-0"
+                            className="form-outline flex-fill mb-0"
                             style={{
                               borderStyle: "outset",
                               borderColor: "#E5E5E2",
@@ -116,17 +175,17 @@ export default function Register() {
                             <input
                               type="password"
                               id="form3Example4c"
-                              class="form-control"
+                              className="form-control"
                               placeholder="Create New Password"
                               required
                             />
                           </div>
                         </div>
 
-                        <div class="d-flex flex-row align-items-center mb-4">
-                          <i class="fas fa-key fa-lg me-3 fa-fw"></i>
+                        <div className="d-flex flex-row align-items-center mb-4">
+                          <i className="fas fa-key fa-lg me-3 fa-fw"></i>
                           <div
-                            class="form-outline flex-fill mb-0"
+                            className="form-outline flex-fill mb-0"
                             style={{
                               borderStyle: "outset",
                               borderColor: "#E5E5E2",
@@ -135,47 +194,59 @@ export default function Register() {
                             <input
                               type="password"
                               id="form3Example4cd"
-                              class="form-control"
+                              className="form-control"
                               placeholder="Repeat Password"
                               required
                             />
                           </div>
                         </div>
 
-                        <div class="form-check d-flex justify-content-center mb-5">
+                        <div className="form-check d-flex justify-content-center mb-5">
                           <input
-                            class="form-check-input me-2"
+                            className="form-check-input me-2"
                             type="checkbox"
                             value=""
                             id="form2Example3c"
                             required
                           />
-                          <label class="form-check-label" for="form2Example3">
+                          <label
+                            className="form-check-label"
+                            htmlFor="form2Example3c"
+                          >
                             I agree all statements in{" "}
                             <a href="#!">Terms of service</a>
                           </label>
                         </div>
 
-                        <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                          <button type="submit" class="btn btn-primary btn-lg">
+                        <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                          <button
+                            type="submit"
+                            className="btn btn-primary btn-lg"
+                          >
                             Register
                           </button>
                         </div>
                       </form>
 
-                      <div class="my-4" />
-                      <button
-                        class="btn btn-lg btn-block btn-primary"
-                        style={{ backgroundColor: "#dd4b39;" }}
-                        type="submit"
+                      {/* <div className="my-4" /> */}
+                      {/* <button
+                        className="btn btn-lg btn-block btn-primary"
+                        style={{ backgroundColor: "#dd4b39" }}
+                        type="button"
+                        onClick={handleCallbackResponse}
                       >
-                        <i class="fab fa-google me-2"></i> Sign up with google
-                      </button>
+                        <i className="fab fa-google me-2"></i> Google
+                      </button> */}
                     </div>
-                    <div class="col-md-10 col-lg-6 col-xl-6 d-flex align-items-center order-1 order-lg-2">
+                    <div className="col-md-10 col-lg-6 col-xl-6 order-2 order-lg-1">
+                      <p className="mt-4 d-flex justify-content-center mb-8 mt-4">
+                        <div id="logindiv">
+                          {/* Google login button will be rendered here */}
+                        </div>
+                      </p>
                       <img
                         src={registration}
-                        class="img-fluid"
+                        className="img-fluid"
                         alt="Sample image"
                       />
                     </div>

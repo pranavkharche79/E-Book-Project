@@ -8,7 +8,7 @@ import javax.persistence.Table;
 @Table(name = "Logins")
 public class Login {
 	@Id
-	private String username;
+	private String email;
 	private String password;
 	private String role;
 	private long id;
@@ -18,20 +18,20 @@ public class Login {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Login(String username, String password, String role, long id) {
+	public Login(String email, String password, String role, long id) {
 		super();
-		this.username = username;
+		this.email = email;
 		this.password = password;
 		this.role = role;
 		this.id = id;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getemail() {
+		return email;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setemail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {
@@ -60,7 +60,7 @@ public class Login {
 
 	@Override
 	public String toString() {
-		return "Login [username=" + username + ", password=" + password + ", role=" + role + ", id=" + id + "]";
+		return "Login [email=" + email + ", password=" + password + ", role=" + role + ", id=" + id + "]";
 	}
 	
 }

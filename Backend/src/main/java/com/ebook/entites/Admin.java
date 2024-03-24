@@ -12,7 +12,7 @@ public class Admin {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	private String username;
+	private String email;
 	private String password;
 	private String role;
 	
@@ -22,10 +22,10 @@ public class Admin {
 	}
 
 
-	public Admin(long id, String username, String password, String role) {
+	public Admin(long id, String email, String password, String role) {
 		super();
 		this.id = id;
-		this.username = username;
+		this.email = email;
 		this.password = password;
 		this.role = role;
 	}
@@ -41,13 +41,13 @@ public class Admin {
 	}
 
 
-	public String getUsername() {
-		return username;
+	public String getemail() {
+		return email;
 	}
 
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setemail(String email) {
+		this.email = email;
 	}
 
 
@@ -73,7 +73,7 @@ public class Admin {
 
 	@Override
 	public String toString() {
-		return "Admin [id=" + id + ", username=" + username + ", password=" + password + ", role=" + role + "]";
+		return "Admin [id=" + id + ", email=" + email + ", password=" + password + ", role=" + role + "]";
 	}
 
 }

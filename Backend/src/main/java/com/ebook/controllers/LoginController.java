@@ -23,10 +23,10 @@ public class LoginController {
 	@Autowired
 	LoginService lService;
 	
-	@PostMapping
-	public ResponseEntity<?> validate(@RequestBody LoginDTO user){
-		System.out.println(user);
-		Login u=lService.validate(user);
+	@PostMapping("/validate")
+	public ResponseEntity<?> validate(@RequestBody LoginDTO dto){
+		System.out.println(dto);
+		Login u=lService.validate(dto);
 		if(u!=null) {
 			return ResponseEntity.ok(u);
 		}

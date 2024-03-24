@@ -17,7 +17,7 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public void createadmin() {
 		Admin admin=new Admin();
-		admin.setUsername("Admin");
+		admin.setemail("pranavkharche79@gmail.com");
 		admin.setPassword("Admin@123");
 		admin.setRole("Admin");
 		admin.setId(1);

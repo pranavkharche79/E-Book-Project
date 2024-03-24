@@ -16,13 +16,13 @@ public class LoginServiceImpl implements LoginService{
 	
 	@Override
 	public Login validate(LoginDTO user) {
-		return ldao.validate(user.getUsername(),user.getPassword()); 
+		return ldao.validate(user.getEmail(),user.getPassword()); 
 	}
 
 	@Override
 	public void createadmin(Admin admin) {
 		System.out.println("Login admin="+admin);
-		Login login=new Login(admin.getUsername(),admin.getPassword(),admin.getRole(),admin.getId());
+		Login login=new Login(admin.getemail(),admin.getPassword(),admin.getRole(),admin.getId());
 		ldao.save(login);
 	}
 	

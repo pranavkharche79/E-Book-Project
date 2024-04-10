@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { logout } from "../store/LoginSlice";
+import { login, logout } from "../store/LoginSlice";
 import { enqueueSnackbar } from "notistack";
 
 export default function Header() {
@@ -15,7 +15,7 @@ export default function Header() {
     dispatch(logout());
     enqueueSnackbar("Logout Successfully", {
       variant: "success",
-      autoHideDuration: 2000,
+      autoHideDuration: 1500,
       anchorOrigin: {
         vertical: "top",
         horizontal: "center",
@@ -23,6 +23,30 @@ export default function Header() {
     });
     navigate("/");
   };
+
+  useEffect(() => {
+    if (localStorage.getItem("email") && localStorage.getItem("picture")) {
+      dispatch(
+        login({
+          email: localStorage.getItem("email"),
+          id: localStorage.getItem("id"),
+          role: localStorage.getItem("role"),
+          picture: localStorage.getItem("picture"),
+          isgoogle: true,
+          loggedIn: localStorage.getItem("loggedIn"),
+        })
+      );
+    } else {
+      dispatch(
+        login({
+          email: localStorage.getItem("email"),
+          id: localStorage.getItem("id"),
+          role: localStorage.getItem("role"),
+          loggedIn: localStorage.getItem("loggedIn"),
+        })
+      );
+    }
+  }, []);
 
   return (
     <>
@@ -68,16 +92,17 @@ export default function Header() {
                 <>
                   <span
                     style={{
-                      backgroundColor: "rgb(92,107,192)",
+                      backgroundColor: "#FF6F61",
                       width: "36px",
                       height: "36px",
                       borderRadius: "50%",
-                      display: "inline-block",
-                      textAlign: "center",
+                      display: "inline-flex", // Use inline-flex for better centering
+                      justifyContent: "center", // Horizontally center content
+                      alignItems: "center", // Vertically center content
                       color: "white",
-                      lineHeight: "30px",
-                      fontSize: "16px", // Adjust font size as needed
-                      fontWeight: "bolder", // Adjust font weight as needed
+                      fontSize: "20px", // Increase font size for better visibility
+                      fontWeight: "bold", // Use "bold" instead of "bolder" for consistency
+                      boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)", // Add a subtle shadow
                     }}
                   >
                     {user.email.charAt(0).toUpperCase()}

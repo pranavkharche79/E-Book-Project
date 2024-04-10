@@ -14,6 +14,8 @@ export const userSlice = createSlice({
     logout: (state) => {
       state.user = null;
       state.isloggedin = false;
+      state.isgoogle = false;
+      localStorage.clear();
     },
   },
 });

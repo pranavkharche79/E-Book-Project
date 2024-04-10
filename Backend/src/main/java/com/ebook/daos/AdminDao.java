@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.ebook.entites.Admin;
 
 @Repository
-public interface AdminDao extends JpaRepository<Admin, String>{
+public interface AdminDao extends JpaRepository<Admin, Long>{
 
 	@Query(value = "select * from logins where username=? and password=?",nativeQuery = true)
 	Admin validate(String username, String password);

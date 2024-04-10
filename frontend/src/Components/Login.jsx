@@ -8,9 +8,11 @@ import { useDispatch } from "react-redux";
 import { login } from "../store/LoginSlice";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
+import { API_BASE_URL } from "../API_Configuration/apiconfig";
 
 export default function Login() {
   initMDB({ Input, Ripple });
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [user, setuser] = useState({
@@ -18,43 +20,69 @@ export default function Login() {
     password: "",
   });
 
-  function handleCallbackResponse(response) {
+  async function handleCallbackResponse(response) {
     console.log("encoded jwt: ", response.credential);
-    var userobject = jwtDecode(response.credential);
+    var userobject = await jwtDecode(response.credential);
     console.log(userobject);
-    // localStorage.setItem("email", userobject.email);
-    // localStorage.setItem("picture", userobject.picture);
-    dispatch(
-      login({
-        name: userobject.name,
-        email: userobject.email,
-        picture: userobject.picture,
-        loggedIn: true,
-        isgoogle: true,
+    const fData = new FormData();
+    fData.append("email", userobject.email);
+    fData.append("name", userobject.name);
+    await axios
+      .post(`${API_BASE_URL}/api/login/google/validate`, fData)
+      .then((res) => {
+        const u = res.data;
+        localStorage.setItem("email", u.email);
+        localStorage.setItem("id", u.id);
+        localStorage.setItem("role", u.role);
+        localStorage.setItem("picture", userobject.picture);
+        localStorage.setItem("loggedIn", true);
+        dispatch(
+          login({
+            email: u.email,
+            id: u.id,
+            role: u.role,
+            picture: userobject.picture,
+            loggedIn: true,
+            isgoogle: true,
+          })
+        );
+        enqueueSnackbar("Login Successfully", {
+          variant: "success",
+          autoHideDuration: 2000,
+          anchorOrigin: {
+            vertical: "top",
+            horizontal: "center",
+          },
+        });
+        navigate("/");
       })
-    );
-    enqueueSnackbar("Login Successfully", {
-      variant: "success",
-      autoHideDuration: 2000,
-      anchorOrigin: {
-        vertical: "top",
-        horizontal: "center",
-      },
-    });
-    navigate("/");
+      .catch(() => {
+        enqueueSnackbar("Internal Server Error", {
+          variant: "error",
+          autoHideDuration: 2000,
+          anchorOrigin: {
+            vertical: "top",
+            horizontal: "center",
+          },
+        });
+      });
   }
 
-  const Submithandler = (e) => {
+  const Submithandler = async (e) => {
     e.preventDefault();
     console.log("User: ", user);
     const formData = new FormData();
     formData.append("email", user.email);
     formData.append("password", user.password);
-    axios
-      .post("http://localhost:8000/api/login/validate", formData)
+    await axios
+      .post(`${API_BASE_URL}/api/login/validate`, formData)
       .then((res) => {
         console.log("Backend:", res.data);
         const ob = res.data;
+        localStorage.setItem("email", ob.email);
+        localStorage.setItem("id", ob.id);
+        localStorage.setItem("role", ob.role);
+        localStorage.setItem("loggedIn", true);
         dispatch(
           login({
             email: ob.email,
@@ -65,7 +93,7 @@ export default function Login() {
         );
         enqueueSnackbar("Login Successfully", {
           variant: "success",
-          autoHideDuration: 2000,
+          autoHideDuration: 1500,
           anchorOrigin: {
             vertical: "top",
             horizontal: "center",

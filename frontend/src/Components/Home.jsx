@@ -1,7 +1,10 @@
 import React from "react";
 import "../CSS/Home.css";
+import RoleNavbar from "./RoleNavbar";
+import { useSelector } from "react-redux";
 
 export default function Home() {
+  const isloggedin = useSelector((state) => state.user.isloggedin);
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-dark bg-custom">
@@ -30,25 +33,9 @@ export default function Home() {
                   Home
                 </a>
               </li>
-              <li className="nav-item">
-                <a className="nav-link active" href="#">
-                  <i class="fa-solid fa-book" style={{ color: "#63E6BE" }}></i>{" "}
-                  Recent Book
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link active" href="#">
-                  <i class="fa-solid fa-book" style={{ color: "#63E6BE" }}></i>{" "}
-                  New Book
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link active" href="#">
-                  <i class="fa-solid fa-book" style={{ color: "#63E6BE" }}></i>{" "}
-                  Old Book
-                </a>
-              </li>
+              <RoleNavbar isloggedin={isloggedin} />
             </ul>
+
             <form className="d-flex" role="search">
               <button className="btn btn-light my-2 my-sm-0" type="submit">
                 <i class="fa-sharp fa-solid fa-gears"></i> Setting

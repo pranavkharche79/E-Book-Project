@@ -26,9 +26,9 @@ public class Book {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Book(int bookid, String bname, double bprice, Category category, String bimage, String bread, String btype) {
+	public Book(String bname, double bprice, Category category, String bimage, String bread, String btype) {
 		super();
-		this.bookid = bookid;
+		
 		this.bname = bname;
 		this.bprice = bprice;
 		this.category = category;

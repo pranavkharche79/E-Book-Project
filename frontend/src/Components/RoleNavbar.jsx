@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function RoleNavbar({ isloggedin }) {
   if (!isloggedin) {
@@ -84,10 +85,13 @@ export default function RoleNavbar({ isloggedin }) {
           <i class="fa-solid fa-book" style={{ color: "#63E6BE" }}></i> Old Book
         </a>
       </li>
+      {/* <Link to="/login" className="btn btn-success">
+                  <i className="fas fa-sign-in-alt"></i> Login
+                </Link> */}
       <li className="nav-item">
-        <a className="nav-link active" href="#">
+        <Link className="nav-link active" to="/addbook">
           <i class="fa-solid fa-book" style={{ color: "#63E6BE" }}></i> Add Book
-        </a>
+        </Link>
       </li>
     </>
   );

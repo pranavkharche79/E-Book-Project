@@ -4,6 +4,7 @@ import Home from "./Components/Home";
 import Header from "./Components/Header";
 import Login from "./Components/Login";
 import Register from "./Components/Register";
+import AddBook from "./Components/AddBook";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/addbook" element={<AddBook />} />
         </Routes>
       </BrowserRouter>
     </>

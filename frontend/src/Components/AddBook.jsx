@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { UploadOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { enqueueSnackbar } from "notistack";
@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function AddBook() {
   const [photo, setphoto] = useState();
+  const [cats, setcats] = useState([]);
   const navigate = useNavigate();
   const [book, setbook] = useState({
     bname: "",
@@ -20,7 +21,7 @@ export default function AddBook() {
     setbook({ ...book, [e.target.name]: e.target.value });
   };
 
-  const handlesubmit = (e) => {
+  const handlesubmit = async (e) => {
     e.preventDefault();
     if (!photo) {
       alert("upload photo");
@@ -30,11 +31,11 @@ export default function AddBook() {
     formData.append("file", photo);
     formData.append("bname", book.bname);
     formData.append("bread", book.bread);
-    formData.append("cat", book.category);
+    formData.append("category", book.category);
     formData.append("bprice", book.price);
     formData.append("btype", book.type);
     console.log(book);
-    axios
+    await axios
       .post("http://localhost:8000/api/book", formData, {
         headers: {
           "Content-Type": "multipart/form-data", // Set content type to multipart/form-data
@@ -50,6 +51,14 @@ export default function AddBook() {
             horizontal: "center",
           },
         });
+        setbook({
+          bname: "",
+          price: "",
+          bread: "",
+          category: "",
+          type: "",
+        });
+        setphoto();
         navigate("/addbook");
       })
       .catch((error) => {
@@ -63,6 +72,21 @@ export default function AddBook() {
         });
       });
   };
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/api/category")
+      .then((resp) => setcats(resp.data))
+      .catch((error) => {
+        enqueueSnackbar(error, {
+          variant: "error",
+          anchorOrigin: {
+            vertical: "top",
+            horizontal: "center",
+          },
+        });
+      });
+  }, []);
 
   return (
     <>
@@ -168,11 +192,10 @@ export default function AddBook() {
                 onChange={handleInput}
                 required
               >
-                <option value="">Select Type</option>
-                <option value="Fiction">Fiction</option>
-                <option value="Nonfiction">Non-Fiction</option>
-                <option value="Biography">Biography</option>
-                <option value="Selfhelp">Self-Help</option>
+                <option value="">Select Category</option>
+                {cats.map((x) => (
+                  <option value={x.id}>{x.catname}</option>
+                ))}
               </select>
             </div>
             <div class="form-group mb-3">

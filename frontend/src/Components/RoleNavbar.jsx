@@ -93,6 +93,12 @@ export default function RoleNavbar({ isloggedin }) {
           <i class="fa-solid fa-book" style={{ color: "#63E6BE" }}></i> Add Book
         </Link>
       </li>
+      <li className="nav-item">
+        <Link className="nav-link active" to="/addcategory">
+          <i class="fa-solid fa-book" style={{ color: "#63E6BE" }}></i> Add
+          Category
+        </Link>
+      </li>
     </>
   );
 }

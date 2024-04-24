@@ -29,7 +29,7 @@ public class BookServiceImpl implements BookService{
 		System.out.println("Book url= "+bimage);
 		obj.setBimage(bimage);
 		System.out.println("Obj==== " +obj);
-//		bdao.save(obj);
+		bdao.save(obj);
 	}
 	
 	public String uploadFile(MultipartFile multipartFile) throws IOException {

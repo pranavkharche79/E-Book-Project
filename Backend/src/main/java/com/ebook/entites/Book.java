@@ -24,7 +24,7 @@ public class Book {
 	private String btype;
 	public Book() {
 		super();
-		// TODO Auto-generated constructor stub
+		// TODO Auto-generated constructor stu
 	}
 	public Book(String bname, double bprice, Category category, String bimage, String bread, String btype) {
 		super();

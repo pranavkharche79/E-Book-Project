@@ -31,8 +31,6 @@ public class BookController {
 	private BookService bService;
 	@PostMapping
 	public ResponseEntity<?> addBook(Book obj,@RequestParam("file") MultipartFile file ) throws IOException{
-//		Category cat=new Category(category);
-//		obj.setCategory(cat);
 		System.out.println("book=" + obj);
 		bService.addbook(obj,file);
 		return ResponseEntity.ok("Book Added Successfully");
@@ -40,6 +38,7 @@ public class BookController {
 	
 	@GetMapping("/paginated")
 	public ResponseEntity<?> getallbooks(int page,int pagesize){	
+		System.err.println("page= "+page+" pagesize= "+pagesize);
 		Page<Book> data=bService.allbookpaginated(page,pagesize);
 		return ResponseEntity.ok(data);
 	}

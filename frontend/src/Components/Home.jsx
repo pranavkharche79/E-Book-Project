@@ -3,6 +3,7 @@ import "../CSS/Home.css";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { Hourglass } from "react-loader-spinner";
 
 export default function Home() {
   const [books, setbooks] = useState([]);
@@ -64,7 +65,7 @@ export default function Home() {
           if (resp.data.content.length === 0) {
             setHasMore(false);
           }
-          if (page === 1) {
+          if (page === 0) {
             setbooks(resp.data.content);
           } else {
             setbooks((prevBooks) => [...prevBooks, ...resp.data.content]);
@@ -78,7 +79,7 @@ export default function Home() {
           disableUI();
           console.log(err);
         });
-    }, 3000);
+    }, 1500);
   };
 
   const getbooksbycategory = async () => {
@@ -186,7 +187,15 @@ export default function Home() {
               marginBottom: "40px",
             }}
           >
-            <h1>Loading...</h1>
+            <Hourglass
+              visible={true}
+              height="80"
+              width="80"
+              ariaLabel="hourglass-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+              colors={["#306cce", "#72a1ed"]}
+            />
           </div>
         }
         scrollThreshold={0.5}
@@ -194,7 +203,7 @@ export default function Home() {
         <div className="row">
           {books.map((book, index) => (
             <div key={index} className="col-md-3 mb-4">
-              <div className="card crd-ho">
+              <div className="card h-100 d-flex flex-column justify-content-between crd-ho">
                 <div className="card-body text-center">
                   <img
                     src={book.bimage}
@@ -205,12 +214,8 @@ export default function Home() {
                       height: "250px",
                       objectFit: "cover",
                     }}
-                    // style={{ width: "200px", height: "250px" }}
                   />
                   <div className="card-body">
-                    <h5 className="card-title" style={{ fontSize: "1.25rem" }}>
-                      {book.bookid}
-                    </h5>
                     <h5 className="card-title" style={{ fontSize: "1.25rem" }}>
                       {book.bname}
                     </h5>
@@ -226,31 +231,33 @@ export default function Home() {
                     <p className="card-text" style={{ fontSize: "1rem" }}>
                       Category: {book.category.catname}
                     </p>
-                    <div className="row">
-                      <div className="col-md-12">
-                        <button
-                          type="button"
-                          className="btn btn-danger btn-sm ml-2 mr-2"
-                        >
-                          Add Cart
-                        </button>
-                        &nbsp;
-                        <a
-                          href={book.bread}
-                          className="btn btn-success btn-sm ml-2 mr-2"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Read
-                        </a>
-                        &nbsp;
-                        <button
-                          type="button"
-                          className="btn btn-danger btn-sm ml-2 mr-2"
-                        >
-                          ₹ {book.bprice}
-                        </button>
-                      </div>
+                  </div>
+                </div>
+                <div className="card-footer text-center">
+                  <div className="row">
+                    <div className="col-md-12">
+                      <button
+                        type="button"
+                        className="btn btn-danger btn-sm ml-2 mr-2"
+                      >
+                        Add Cart
+                      </button>
+                      &nbsp;
+                      <a
+                        href={book.bread}
+                        className="btn btn-success btn-sm ml-2 mr-2"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Read
+                      </a>
+                      &nbsp;
+                      <button
+                        type="button"
+                        className="btn btn-danger btn-sm ml-2 mr-2"
+                      >
+                        ₹ {book.bprice}
+                      </button>
                     </div>
                   </div>
                 </div>

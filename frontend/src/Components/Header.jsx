@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { login, logout } from "../store/LoginSlice";
 import { enqueueSnackbar } from "notistack";
+import avtar from "../Images/avtar.jpg";
 
 export default function Header() {
   const dispatch = useDispatch();
@@ -85,6 +86,12 @@ export default function Header() {
                     <img
                       src={user.picture}
                       style={{ width: "35px", borderRadius: "50%" }}
+                      onError={(e) => {
+                        console.log("Inside error in profile");
+                        e.target.onerror = null;
+                        e.target.src = `${avtar}`;
+                      }}
+                      alt="USER"
                     ></img>
                   </>
                 </>

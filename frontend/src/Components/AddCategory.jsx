@@ -1,6 +1,7 @@
 import axios from "axios";
 import { closeSnackbar, enqueueSnackbar } from "notistack";
 import React, { useEffect, useState } from "react";
+import { API_BASE_URL } from "../API_Configuration/apiconfig";
 
 export default function AddCategory() {
   const [cats, setcats] = useState([]);
@@ -8,7 +9,7 @@ export default function AddCategory() {
 
   const deleteCategory = (cat) => {
     axios
-      .delete("http://localhost:8000/api/category/" + cat.id)
+      .delete(`${API_BASE_URL}/api/category/` + cat.id)
       .then((resp) => {
         enqueueSnackbar(resp.data, {
           variant: "success",
@@ -50,7 +51,7 @@ export default function AddCategory() {
     const formData = new FormData();
     formData.append("catname", catname);
     axios
-      .post("http://localhost:8000/api/category", formData)
+      .post(`${API_BASE_URL}/api/category`, formData)
       .then((resp) => {
         setcatname("");
         enqueueSnackbar(resp.data, {
@@ -78,7 +79,7 @@ export default function AddCategory() {
 
   const loaddata = () => {
     axios
-      .get("http://localhost:8000/api/category")
+      .get(`${API_BASE_URL}/api/category`)
       .then((resp) => setcats(resp.data))
       .catch((error) => {
         enqueueSnackbar(error.error, {

@@ -3,6 +3,7 @@ import { UploadOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { enqueueSnackbar } from "notistack";
 import axios from "axios";
+import { API_BASE_URL } from "../API_Configuration/apiconfig";
 import { useNavigate } from "react-router-dom";
 
 export default function AddBook() {
@@ -36,7 +37,7 @@ export default function AddBook() {
     formData.append("btype", book.type);
     console.log(book);
     await axios
-      .post("http://localhost:8000/api/book", formData, {
+      .post(`${API_BASE_URL}/api/book`, formData, {
         headers: {
           "Content-Type": "multipart/form-data", // Set content type to multipart/form-data
         },
@@ -75,7 +76,7 @@ export default function AddBook() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/category")
+      .get(`${API_BASE_URL}/api/category`)
       .then((resp) => setcats(resp.data))
       .catch((error) => {
         enqueueSnackbar(error, {

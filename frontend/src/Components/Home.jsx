@@ -4,6 +4,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Hourglass } from "react-loader-spinner";
+import { API_BASE_URL } from "../API_Configuration/apiconfig";
 
 export default function Home() {
   const [books, setbooks] = useState([]);
@@ -49,10 +50,7 @@ export default function Home() {
     setTimeout(async () => {
       await axios
         .get(
-          "http://localhost:8000/api/book/paginated?page=" +
-            page +
-            "&pagesize=" +
-            8
+          `${API_BASE_URL}/api/book/paginated?page=` + page + `&pagesize=` + 8
         )
         .then((resp) => {
           console.log(resp.data.content);
@@ -83,12 +81,10 @@ export default function Home() {
   };
 
   const getbooksbycategory = async () => {
-    await axios
-      .get("http://localhost:8000/api/book/cats/" + catid)
-      .then((resp) => {
-        setbooks((prevbooks) => [...prevbooks, resp.data]);
-        setPage((prevPage) => prevPage + 1);
-      });
+    await axios.get(`${API_BASE_URL}/api/book/cats/` + catid).then((resp) => {
+      setbooks((prevbooks) => [...prevbooks, resp.data]);
+      setPage((prevPage) => prevPage + 1);
+    });
   };
 
   useEffect(() => {

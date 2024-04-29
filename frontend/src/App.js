@@ -7,6 +7,7 @@ import Register from "./Components/Register";
 import AddBook from "./Components/AddBook";
 import AddCategory from "./Components/AddCategory";
 import Navbar from "./Components/Navbar";
+import CustomerProfile from "./Components/CustomerProfile";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/addbook" element={<AddBook />} />
           <Route path="/addcategory" element={<AddCategory />} />
+          <Route path="/customerprofile" element={<CustomerProfile />} />
         </Routes>
       </BrowserRouter>
     </>

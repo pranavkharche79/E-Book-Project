@@ -1,20 +1,26 @@
 package com.ebook.services;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ebook.daos.CustomerDao;
 import com.ebook.daos.LoginDao;
+import com.ebook.entites.Address;
 import com.ebook.entites.Customer;
 import com.ebook.entites.Login;
 import com.ebook.supports.CustomerDTO;
+import com.ebook.supports.CustomerProfileDTO;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
 	@Autowired
-	CustomerDao cdao;
+	private CustomerDao cdao;
 	@Autowired
-	LoginService lService;
+	private LoginService lService;
+	@Autowired
+	private AddressService aService;
 
 	@Override
 	public Login createCustomer(String email, String name) {
@@ -37,6 +43,11 @@ public class CustomerServiceImpl implements CustomerService {
 		Login ob = new Login(customer.getEmail(), customer.getPassword(), "Customer", customer.getId());
 		lService.savetologin(ob);
 
+	}
+
+	@Override
+	public Customer getCustomerbyid(Long id) {
+		return cdao.getById(id);
 	}
 
 }

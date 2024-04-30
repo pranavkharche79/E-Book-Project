@@ -2,17 +2,18 @@ import React, { useState, useEffect } from "react";
 import axios from "axios"; // You may need to install axios for making HTTP requests;
 import { API_BASE_URL } from "../API_Configuration/apiconfig";
 
-const CustomerProfile = ({ customerId }) => {
+const CustomerProfile = () => {
   const [customer, setCustomer] = useState(null);
   const [editing, setEditing] = useState(false);
   const [formData, setFormData] = useState({});
+  const customerId = 3;
 
   useEffect(() => {
     // Fetch customer data from your backend API
     const fetchCustomer = async () => {
       try {
         const response = await axios.get(
-          `${API_BASE_URL}/api/customers/${customerId}`
+          `${API_BASE_URL}/api/customer/${customerId}`
         ); // Adjust the URL to match your backend API
         setCustomer(response.data);
         setFormData(response.data);
@@ -138,25 +139,21 @@ const CustomerProfile = ({ customerId }) => {
         <div className="col">
           <h3>Addresses</h3>
           <ul>
-            {customer.alist.map((address) => (
-              <li key={address.id}>
-                <p>
-                  <strong>Address:</strong> {address.adrr}
-                </p>
-                <p>
-                  <strong>Landmark:</strong> {address.landmark}
-                </p>
-                <p>
-                  <strong>City:</strong> {address.city}
-                </p>
-                <p>
-                  <strong>State:</strong> {address.state}
-                </p>
-                <p>
-                  <strong>Pincode:</strong> {address.pincode}
-                </p>
-              </li>
-            ))}
+            <p>
+              <strong>Address:</strong>
+            </p>
+            <p>
+              <strong>Landmark:</strong>
+            </p>
+            <p>
+              <strong>City:</strong>
+            </p>
+            <p>
+              <strong>State:</strong>
+            </p>
+            <p>
+              <strong>Pincode:</strong>
+            </p>
           </ul>
         </div>
       </div>

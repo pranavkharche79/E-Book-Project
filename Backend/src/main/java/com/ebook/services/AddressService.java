@@ -6,6 +6,10 @@ import com.ebook.entites.Address;
 
 public interface AddressService {
 
-	Optional<Address> getbycustid(Long id);
+	Address getbycustid(Long id);
+
+	void updateAddress(Address addr);
+
+	void savAddress(Address addr);
 	
 }

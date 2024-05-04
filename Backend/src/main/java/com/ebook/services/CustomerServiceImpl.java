@@ -47,7 +47,12 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public Customer getCustomerbyid(Long id) {
-		return cdao.getById(id);
+		return cdao.findById(id).orElse(null);
+	}
+
+	@Override
+	public void updatecustomer(Customer cust) {
+		cdao.save(cust);
 	}
 
 }

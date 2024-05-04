@@ -79,46 +79,48 @@ export default function Header() {
           </div>
 
           <div className="col-md-3">
-            {isloggedin ? (
-              isgoogle ? (
-                <>
+            <Link to="/customerprofile">
+              {isloggedin ? (
+                isgoogle ? (
                   <>
-                    <img
-                      src={user.picture}
-                      style={{ width: "35px", borderRadius: "50%" }}
-                      onError={(e) => {
-                        console.log("Inside error in profile");
-                        e.target.onerror = null;
-                        e.target.src = `${avtar}`;
-                      }}
-                      alt="USER"
-                    ></img>
+                    <>
+                      <img
+                        src={user.picture}
+                        style={{ width: "35px", borderRadius: "50%" }}
+                        onError={(e) => {
+                          console.log("Inside error in profile");
+                          e.target.onerror = null;
+                          e.target.src = `${avtar}`;
+                        }}
+                        alt="USER"
+                      ></img>
+                    </>
                   </>
-                </>
+                ) : (
+                  <>
+                    <span
+                      style={{
+                        backgroundColor: "#FF6F61",
+                        width: "36px",
+                        height: "36px",
+                        borderRadius: "50%",
+                        display: "inline-flex", // Use inline-flex for better centering
+                        justifyContent: "center", // Horizontally center content
+                        alignItems: "center", // Vertically center content
+                        color: "white",
+                        fontSize: "20px", // Increase font size for better visibility
+                        fontWeight: "bold", // Use "bold" instead of "bolder" for consistency
+                        boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)", // Add a subtle shadow
+                      }}
+                    >
+                      {user.email.charAt(0).toUpperCase()}
+                    </span>
+                  </>
+                )
               ) : (
-                <>
-                  <span
-                    style={{
-                      backgroundColor: "#FF6F61",
-                      width: "36px",
-                      height: "36px",
-                      borderRadius: "50%",
-                      display: "inline-flex", // Use inline-flex for better centering
-                      justifyContent: "center", // Horizontally center content
-                      alignItems: "center", // Vertically center content
-                      color: "white",
-                      fontSize: "20px", // Increase font size for better visibility
-                      fontWeight: "bold", // Use "bold" instead of "bolder" for consistency
-                      boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)", // Add a subtle shadow
-                    }}
-                  >
-                    {user.email.charAt(0).toUpperCase()}
-                  </span>
-                </>
-              )
-            ) : (
-              <></>
-            )}
+                <></>
+              )}
+            </Link>
             {/* {isgoogle && (
               <img
                 src={user.picture}

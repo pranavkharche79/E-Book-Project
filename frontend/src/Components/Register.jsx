@@ -119,10 +119,7 @@ export default function Register() {
               <div className="card text-black" style={{ borderRadius: "25px" }}>
                 <div className="card-body p-md-1">
                   <div className="row justify-content-center">
-                    <div
-                      className="col-md-10 col-lg-6 col-xl-6 order-2 order-lg-1"
-                      // style={{ backgroundColor: "yellow" }}
-                    >
+                    <div className="col-md-10 col-lg-6 col-xl-6 order-2 order-lg-1">
                       <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
                         Sign up
                       </p>
@@ -349,7 +346,7 @@ export default function Register() {
                       <img
                         src={registration}
                         className="img-fluid"
-                        alt="Sample image"
+                        alt="Registration"
                       />
                     </div>
                   </div>

@@ -56,13 +56,13 @@ export default function RoleNavbar({ isloggedin }) {
           </a>
         </li>
         <li className="nav-item ml-auto">
-          <a className="nav-link active" href="#">
+          <Link className="nav-link active" to="/cart">
             <i
               className="fa-solid fa-shopping-cart"
               style={{ color: "#63E6BE" }}
             ></i>{" "}
             Cart
-          </a>
+          </Link>
         </li>
       </>
     );

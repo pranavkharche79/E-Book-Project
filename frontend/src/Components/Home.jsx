@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import "../CSS/Home.css";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Hourglass } from "react-loader-spinner";
 import { API_BASE_URL } from "../API_Configuration/apiconfig";
+import { enqueueSnackbar } from "notistack";
 
 export default function Home() {
   const [books, setbooks] = useState([]);
   const { catid } = useParams();
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
+  const navigate = useNavigate();
 
   const disableUI = () => {
     // Disable UI elements
@@ -50,7 +52,7 @@ export default function Home() {
     setTimeout(async () => {
       await axios
         .get(
-          `${API_BASE_URL}/api/book/paginated?page=` + page + `&pagesize=` + 8
+          `${API_BASE_URL}/api/book/paginated?page=` + page + `&pagesize=` + 6
         )
         .then((resp) => {
           console.log(resp.data.content);
@@ -94,6 +96,60 @@ export default function Home() {
       loadDataFromServer();
     }
   }, []);
+
+  const addToCart = async (book) => {
+    if (localStorage.getItem("id") == null) {
+      enqueueSnackbar("Please login first to buy book", {
+        variant: "error",
+        autoHideDuration: 2000,
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "center",
+        },
+      });
+      navigate("/login");
+    } else if (localStorage.getItem("role") !== "Customer") {
+      enqueueSnackbar("Only customer can buy book", {
+        variant: "error",
+        autoHideDuration: 2000,
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "center",
+        },
+      });
+    } else {
+      console.log("book=", book.bname);
+      const formdata = new FormData();
+      formdata.append("book_id", book.bookid);
+      formdata.append("cust_id", localStorage.getItem("id"));
+      formdata.append("bname", book.bname);
+      formdata.append("bprice", book.bprice);
+      formdata.append("bimage", book.bimage);
+      formdata.append("qty", 1);
+      await axios
+        .post(`${API_BASE_URL}/api/cart`, formdata)
+        .then((resp) => {
+          enqueueSnackbar(resp.data, {
+            variant: "success",
+            autoHideDuration: 1500,
+            anchorOrigin: {
+              vertical: "top",
+              horizontal: "center",
+            },
+          });
+        })
+        .catch((resp) => {
+          enqueueSnackbar(resp.response.data, {
+            variant: "error",
+            autoHideDuration: 1500,
+            anchorOrigin: {
+              vertical: "top",
+              horizontal: "center",
+            },
+          });
+        });
+    }
+  };
 
   return (
     <>
@@ -197,8 +253,8 @@ export default function Home() {
         scrollThreshold={0.5}
       >
         <div className="row">
-          {books.map((book, index) => (
-            <div key={index} className="col-md-3 mb-4">
+          {books.map((book) => (
+            <div key={book.bookid} className="col-md-4 mb-4">
               <div className="card h-100 d-flex flex-column justify-content-between crd-ho">
                 <div className="card-body text-center">
                   <img
@@ -235,6 +291,7 @@ export default function Home() {
                       <button
                         type="button"
                         className="btn btn-danger btn-sm ml-2 mr-2"
+                        onClick={(e) => addToCart(book)}
                       >
                         Add Cart
                       </button>

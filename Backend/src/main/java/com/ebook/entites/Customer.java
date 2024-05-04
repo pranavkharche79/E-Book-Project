@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "Customers")
 public class Customer {
@@ -24,6 +26,7 @@ public class Customer {
 	private String phone;
 	private String gender;
 	@OneToMany(mappedBy = "cust",cascade = CascadeType.ALL)
+	@JsonIgnore
 	private List<Address> alist;
 	public Customer() {
 		super();

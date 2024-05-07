@@ -33,6 +33,7 @@ public class BookServiceImpl implements BookService{
 	}
 	
 	public String uploadFile(MultipartFile multipartFile) throws IOException {
+//		System.out.println("file name="+multipartFile.getName()+"original file name="+multipartFile.getOriginalFilename());
         return cloudinary.uploader()
                 .upload(multipartFile.getBytes(),
                         Map.of("public_id", UUID.randomUUID().toString()))

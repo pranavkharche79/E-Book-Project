@@ -101,7 +101,7 @@ export default function Home() {
     if (localStorage.getItem("id") == null) {
       enqueueSnackbar("Please login first to buy book", {
         variant: "error",
-        autoHideDuration: 2000,
+        autoHideDuration: 1600,
         anchorOrigin: {
           vertical: "top",
           horizontal: "center",
@@ -111,7 +111,7 @@ export default function Home() {
     } else if (localStorage.getItem("role") !== "Customer") {
       enqueueSnackbar("Only customer can buy book", {
         variant: "error",
-        autoHideDuration: 2000,
+        autoHideDuration: 1600,
         anchorOrigin: {
           vertical: "top",
           horizontal: "center",

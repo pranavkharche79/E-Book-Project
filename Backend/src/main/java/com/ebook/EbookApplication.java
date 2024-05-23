@@ -18,7 +18,7 @@ public class EbookApplication {
 	@Bean
 	public CommandLineRunner createadmin(AdminService aserv) {
 		if(aserv.count()==0) {
-			aserv.createadmin();			
+			aserv.createadmin();		
 		}
 		return null;
 	}

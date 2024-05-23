@@ -22,7 +22,7 @@ public class AdminServiceImpl implements AdminService {
 		admin.setRole("Admin");
 		admin.setId(1);
 		lserv.createadmin(admin);
-		adao.save(admin); 
+		adao.save(admin);
 	}
 
 	@Override

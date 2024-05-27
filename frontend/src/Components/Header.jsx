@@ -85,7 +85,7 @@ export default function Header() {
                   <>
                     <>
                       <img
-                        src={user.picture}
+                        src={localStorage.getItem("picture")}
                         style={{ width: "35px", borderRadius: "50%" }}
                         onError={(e) => {
                           console.log("Inside error in profile");

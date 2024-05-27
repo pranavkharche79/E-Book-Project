@@ -3,12 +3,15 @@ import axios from "axios"; // You may need to install axios for making HTTP requ
 import { API_BASE_URL } from "../API_Configuration/apiconfig";
 import { useSelector } from "react-redux";
 import avtar from "../Images/avtar.jpg";
+import { useNavigate } from "react-router-dom";
+import { enqueueSnackbar } from "notistack";
 
 const CustomerProfile = () => {
   const [customer, setCustomer] = useState(null);
   const [editing, setEditing] = useState(false);
   const [addressEditing, setAddressEditing] = useState(false);
   const [formData, setFormData] = useState({});
+  const navigate = useNavigate();
   const [addressFormData, setaddressFormData] = useState({});
   const user = useSelector((state) => state.user.user);
   const isloggedin = useSelector((state) => state.user.isloggedin);
@@ -16,6 +19,9 @@ const CustomerProfile = () => {
   const customerId = localStorage.getItem("id");
 
   useEffect(() => {
+    if (localStorage.getItem("role") !== "Customer") {
+      navigate("/");
+    }
     // Fetch customer data from your backend API
     const fetchCustomer = async () => {
       try {
@@ -52,32 +58,63 @@ const CustomerProfile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Customer= ", formData);
-    try {
-      // Send updated customer data to backend for saving changes
-      await axios.put(
-        `${API_BASE_URL}/api/customer?customerId=${customerId}`,
-        formData
-      ); // Adjust the URL to match your backend API
-      setEditing(false);
-    } catch (error) {
-      console.error("Error updating customer:", error);
-    }
+    // console.log("Customer= ", formData);
+    //For updating Customer Profile
+    await axios
+      .put(`${API_BASE_URL}/api/customer`, formData)
+      .then((res) => {
+        setEditing(false);
+        enqueueSnackbar(res.data, {
+          variant: "success",
+          autoHideDuration: 1500,
+          anchorOrigin: {
+            vertical: "top",
+            horizontal: "center",
+          },
+        });
+      })
+      .catch((err) => {
+        enqueueSnackbar("Something Went Worng !!!", {
+          variant: "error",
+          autoHideDuration: 1500,
+          anchorOrigin: {
+            vertical: "top",
+            horizontal: "center",
+          },
+        });
+      });
   };
 
   const handleAddressSubmit = async (e) => {
     e.preventDefault();
-    console.log("address= ", addressFormData);
-    try {
-      // Send updated customer data to backend for saving changes
-      await axios.put(
+    // console.log("address= ", addressFormData);
+    // Updating Customer Address
+    await axios
+      .put(
         `${API_BASE_URL}/api/customer/address?customerId=${customerId}`,
         addressFormData
-      ); // Adjust the URL to match your backend API
-      setAddressEditing(false);
-    } catch (error) {
-      console.error("Error updating customer:", error);
-    }
+      )
+      .then((res) => {
+        setAddressEditing(false);
+        enqueueSnackbar(res.data, {
+          variant: "success",
+          autoHideDuration: 1500,
+          anchorOrigin: {
+            vertical: "top",
+            horizontal: "center",
+          },
+        });
+      })
+      .catch((err) => {
+        enqueueSnackbar("Something Went Worng !!!", {
+          variant: "error",
+          autoHideDuration: 1500,
+          anchorOrigin: {
+            vertical: "top",
+            horizontal: "center",
+          },
+        });
+      });
   };
 
   if (!customer) {

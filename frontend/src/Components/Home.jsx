@@ -280,7 +280,7 @@ export default function Home() {
                     >
                       {book.btype}
                     </h5>
-                    <p className="card-text" style={{ fontSize: "1rem" }}>
+                    <p className="card-text" style={{ fontSize: "1.1rem" }}>
                       Category: {book.category.catname}
                     </p>
                   </div>

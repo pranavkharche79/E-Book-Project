@@ -46,6 +46,7 @@ public class CartController {
 	
 	@GetMapping("{id}")
 	public ResponseEntity<?> deleteCartBook(@PathVariable long id){
+		System.out.println(id);
 		cartService.deleteCartBook(id);
 		return ResponseEntity.ok("Book Removed From Cart");
 	}

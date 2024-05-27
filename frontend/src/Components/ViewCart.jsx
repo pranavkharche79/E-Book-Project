@@ -3,9 +3,14 @@ import "../CSS/ViewCart.css";
 import axios from "axios";
 import { API_BASE_URL } from "../API_Configuration/apiconfig.js";
 import EmptyCartImg from "../Images/empty_cart.png";
+import { enqueueSnackbar } from "notistack";
 
 export default function ViewCart() {
   const [cartbooks, setcartbooks] = useState([]);
+  const totalPrice = cartbooks.reduce(
+    (total, item) => total + item.bprice * item.qty,
+    0
+  );
 
   const fetchCartBooks = async () => {
     await axios
@@ -16,6 +21,33 @@ export default function ViewCart() {
       })
       .catch((err) => {
         console.log(err);
+      });
+  };
+
+  const handelCartBookDelete = async (cid) => {
+    await axios
+      .get(`${API_BASE_URL}api/cart/${cid}`)
+      .then((res) => {
+        console.log(res.data);
+        enqueueSnackbar(res.data, {
+          variant: "success",
+          autoHideDuration: 1500,
+          anchorOrigin: {
+            vertical: "top",
+            horizontal: "center",
+          },
+        });
+        fetchCartBooks();
+      })
+      .catch((err) => {
+        enqueueSnackbar("Something Went Worng !!!", {
+          variant: "error",
+          autoHideDuration: 1500,
+          anchorOrigin: {
+            vertical: "top",
+            horizontal: "center",
+          },
+        });
       });
   };
 
@@ -71,17 +103,25 @@ export default function ViewCart() {
                                         <span>₹{items.bprice}</span>
                                       </div>
                                       <div class="col-md-3 price">
-                                        <i
-                                          class="fa fa-trash"
-                                          aria-hidden="true"
+                                        <button
+                                          type="button"
                                           style={{
-                                            fontSize: "35px",
-                                            color: "red",
+                                            backgroundColor: "white",
+                                            border: "1px solid transparent",
                                           }}
                                           onClick={(e) => {
-                                            alert("hi");
+                                            handelCartBookDelete(items.cid);
                                           }}
-                                        ></i>
+                                        >
+                                          <i
+                                            class="fa fa-trash"
+                                            aria-hidden="true"
+                                            style={{
+                                              fontSize: "35px",
+                                              color: "red",
+                                            }}
+                                          ></i>
+                                        </button>
                                       </div>
                                     </div>
                                   </div>
@@ -97,7 +137,7 @@ export default function ViewCart() {
                         <h3>Summary</h3>
                         <div class="summary-item">
                           <span class="text">Subtotal</span>
-                          <span class="price">₹360</span>
+                          <span class="price">₹{totalPrice}</span>
                         </div>
                         <div class="summary-item">
                           <span class="text">Discount</span>
@@ -109,7 +149,7 @@ export default function ViewCart() {
                         </div>
                         <div class="summary-item">
                           <span class="text">Total</span>
-                          <span class="price">₹360</span>
+                          <span class="price">₹{totalPrice}</span>
                         </div>
                         <button
                           type="button"

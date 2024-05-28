@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "../CSS/ViewCart.css";
 import axios from "axios";
-import { API_BASE_URL } from "../API_Configuration/apiconfig.js";
+import {
+  API_BASE_URL,
+  REACT_STRIPE_SECRET_KEY,
+} from "../API_Configuration/apiconfig.js";
 import EmptyCartImg from "../Images/empty_cart.png";
 import { enqueueSnackbar } from "notistack";
+import Stripe from "stripe";
+
+const stripe = new Stripe(REACT_STRIPE_SECRET_KEY);
 
 export default function ViewCart() {
   const [cartbooks, setcartbooks] = useState([]);
@@ -49,6 +55,33 @@ export default function ViewCart() {
           },
         });
       });
+  };
+
+  const payment_obj = cartbooks.map((item) => {
+    return {
+      price_data: {
+        currency: "INR",
+        product_data: {
+          name: item.bname,
+          images: [item.bimage],
+        },
+        unit_amount: Math.round(item.bprice * 100),
+      },
+      quantity: item.qty,
+    };
+  });
+
+  const makePayment = async () => {
+    console.log("Payment obj= ", payment_obj);
+    const response = await stripe.checkout.sessions.create({
+      line_items: payment_obj,
+      payment_method_types: ["card"],
+      mode: "payment",
+      success_url: `http://localhost:3000/success`,
+      cancel_url: `http://localhost:3000/failed`,
+    });
+    window.location.href = response.url;
+    console.log("payment res= ", response);
   };
 
   useEffect(() => {
@@ -154,6 +187,7 @@ export default function ViewCart() {
                         <button
                           type="button"
                           class="btn btn-primary btn-lg btn-block"
+                          onClick={makePayment}
                         >
                           Checkout
                         </button>

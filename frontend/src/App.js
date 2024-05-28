@@ -9,6 +9,8 @@ import AddCategory from "./Components/AddCategory";
 import Navbar from "./Components/Navbar";
 import CustomerProfile from "./Components/CustomerProfile";
 import ViewCart from "./Components/ViewCart";
+import Success from "./Components/Success";
+import Failed from "./Components/Failed";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
           <Route path="/addcategory" element={<AddCategory />} />
           <Route path="/customerprofile" element={<CustomerProfile />} />
           <Route path="/cart" element={<ViewCart />} />
+          <Route path="/success" element={<Success />} />
+          <Route path="/failed" element={<Failed />} />
         </Routes>
       </BrowserRouter>
     </>

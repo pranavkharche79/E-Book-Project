@@ -82,6 +82,6 @@ public class Address {
 	@Override
 	public String toString() {
 		return "Address [id=" + id + ", adrr=" + adrr + ", landmark=" + landmark + ", city=" + city + ", state=" + state
-				+ ", pincode=" + pincode + ", cust=" + cust + "]";
+				+ ", pincode=" + pincode +"]";
 	}
 }

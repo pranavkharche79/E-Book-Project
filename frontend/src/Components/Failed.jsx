@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 
 const Failed = () => {
-  const [seconds, setSeconds] = useState(5);
+  const [seconds, setSeconds] = useState(10);
 
   useEffect(() => {
     setTimeout(() => {
       window.location.href = "/";
-    }, 5000);
+    }, 10000);
 
     const interval = setInterval(() => {
       setSeconds((seconds) => seconds - 1);
@@ -33,14 +33,14 @@ const Failed = () => {
             style={{ fontSize: "3rem", color: "red" }}
           ></i>
         </div>
-        <h4 className="mt-3 mb-1">Transaction Failed!</h4>
+        <h4 className="mt-2 mb-1">Transaction Failed!</h4>
         <p>
-          Our team will get back to you soon regarding the error. Redirecting to
-          Home Page in{" "}
+          Oops! Something went wrong. Don't worry, our team is on it and will
+          get back to you shortly. You'll be redirected to the Home Page in{" "}
           <span style={{ color: "darkred", fontWeight: "bold" }}>
             {seconds}
           </span>{" "}
-          Seconds.
+          seconds.
         </p>
       </div>
     </div>

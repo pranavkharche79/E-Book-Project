@@ -72,4 +72,15 @@ public class CustomerController {
 		return ResponseEntity.ok("Address Saved Successfully");
 	}
 	
+	@GetMapping("/checkaddress/{id}")
+	public ResponseEntity<?> checkAddressbycustid(@PathVariable("id") long id){
+		System.out.println(id);
+		Address address=aService.getbycustid(id);
+		System.out.println(address);
+		if(address!=null) {
+			return ResponseEntity.ok(address);
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Fill Address Before Purchasing");
+	}
+	
 }

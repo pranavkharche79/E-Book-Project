@@ -3,6 +3,7 @@ import "../CSS/ViewCart.css";
 import axios from "axios";
 import {
   API_BASE_URL,
+  REACT_BASE_URL,
   REACT_STRIPE_SECRET_KEY,
 } from "../API_Configuration/apiconfig.js";
 import EmptyCartImg from "../Images/empty_cart.png";
@@ -71,17 +72,36 @@ export default function ViewCart() {
     };
   });
 
+  const beforePayment = async () => {
+    axios
+      .get(
+        `${API_BASE_URL}api/customer/checkaddress/${localStorage.getItem("id")}`
+      )
+      .then((res) => {
+        makePayment();
+      })
+      .catch((err) => {
+        alert(err.response.data);
+      });
+  };
+
   const makePayment = async () => {
     console.log("Payment obj= ", payment_obj);
     const response = await stripe.checkout.sessions.create({
       line_items: payment_obj,
       payment_method_types: ["card"],
       mode: "payment",
-      success_url: `http://localhost:3000/success`,
-      cancel_url: `http://localhost:3000/failed`,
+      success_url: `${REACT_BASE_URL}success`,
+      cancel_url: `${REACT_BASE_URL}failed`,
     });
+    localStorage.setItem("stripe", JSON.stringify(response));
+    localStorage.setItem("stripe_url", response.url);
+
+    // localStorage.setItem("stripe_seller", response.outcome.seller_message);
+    localStorage.setItem("stripe_status", response.status);
+    localStorage.setItem("stripe_s_id", response.id);
+    // console.log("payment res= ", response);
     window.location.href = response.url;
-    console.log("payment res= ", response);
   };
 
   useEffect(() => {
@@ -187,7 +207,7 @@ export default function ViewCart() {
                         <button
                           type="button"
                           class="btn btn-primary btn-lg btn-block"
-                          onClick={makePayment}
+                          onClick={beforePayment}
                         >
                           Checkout
                         </button>

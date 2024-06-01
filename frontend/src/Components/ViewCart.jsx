@@ -9,6 +9,8 @@ import {
 import EmptyCartImg from "../Images/empty_cart.png";
 import { enqueueSnackbar } from "notistack";
 import Stripe from "stripe";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const stripe = new Stripe(REACT_STRIPE_SECRET_KEY);
 
@@ -18,6 +20,7 @@ export default function ViewCart() {
     (total, item) => total + item.bprice * item.qty,
     0
   );
+  const navigate = useNavigate();
 
   const fetchCartBooks = async () => {
     await axios
@@ -81,7 +84,13 @@ export default function ViewCart() {
         makePayment();
       })
       .catch((err) => {
-        alert(err.response.data);
+        // alert(err.response.data);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          html: `<p style="color: red;">${err.response.data}</p>`,
+        });
+        navigate("/customerprofile");
       });
   };
 

@@ -19,11 +19,11 @@ A full-stack E-Book management system and e-commerce platform built with React, 
 ## Demo Video
 
 You can view the functional demo by checking the video below:
-<video src="images/E-book%20Demo.mp4" controls="controls" style="max-width: 100%;">
+<video src="https://res.cloudinary.com/dvizikqng/video/upload/v1773492009/E-book_Demo_pdvahx.mp4" controls="controls" style="max-width: 100%;">
     Your browser does not support the video tag.
 </video>
 
-*(If the video doesn't play inline, you can find it at `images/E-book Demo.mp4` within the repository)*
+*(If the video doesn't play inline, [click here to watch it](https://res.cloudinary.com/dvizikqng/video/upload/v1773492009/E-book_Demo_pdvahx.mp4))*
 
 ## Screenshots
 

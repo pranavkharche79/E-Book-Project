@@ -49,7 +49,7 @@ public class BookServiceImpl implements BookService{
 	@Override
 	public Page<Book> allbookpaginated(int page, int pagesize) {
 		Page<Book> books=bdao.findAll(PageRequest.of(page, pagesize));
-		System.err.println(books.getSize());
+		System.err.println("Book size = "+books.getSize());
 		return books;
 	}
 

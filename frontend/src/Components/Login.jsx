@@ -178,10 +178,20 @@ export default function Login() {
                         required
                       />
                     </div>
-                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                      <button type="submit" class="btn btn-primary btn-lg">
-                        Login
-                      </button>
+                    <div className="d-flex justify-content-between align-items-center mb-4">
+                      <div>
+                        <Link to="/forgot-password" className="text-muted">
+                          Forgot Password?
+                        </Link>
+                      </div>
+                      <div>
+                        <button
+                          type="submit"
+                          className="btn btn-primary btn-lg px-4 py-2"
+                        >
+                          Login
+                        </button>
+                      </div>
                     </div>
                   </form>
                   {/* google login */}

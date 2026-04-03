@@ -1,5 +1,7 @@
 package com.ebook.services;
 
+import java.util.Optional;
+
 import com.ebook.entites.Customer;
 import com.ebook.entites.Login;
 import com.ebook.supports.CustomerDTO;
@@ -14,5 +16,7 @@ public interface CustomerService {
 	Customer getCustomerbyid(Long id);
 
 	void updatecustomer(Customer cust);
+
+	Customer getCustomerbyEmail(String email);
 
 }

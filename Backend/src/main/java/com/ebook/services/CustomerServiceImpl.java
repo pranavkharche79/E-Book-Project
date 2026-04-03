@@ -29,7 +29,7 @@ public class CustomerServiceImpl implements CustomerService {
 		c.setName(name);
 		cdao.save(c);
 		Customer customer = null;
-		customer = cdao.getbyemail(c.getEmail());
+		customer = getCustomerbyEmail(c.getEmail());
 		Login ob = new Login(customer.getEmail(), customer.getPassword(), "Customer", customer.getId());
 		return lService.savetologin(ob);
 	}
@@ -39,7 +39,7 @@ public class CustomerServiceImpl implements CustomerService {
 		Customer cust = new Customer(c.getName(),c.getEmail(),c.getPassword(),c.getPhone(),c.getGender());
 		cdao.save(cust);
 		Customer customer = null;
-		customer = cdao.getbyemail(cust.getEmail());
+		customer = getCustomerbyEmail(cust.getEmail());
 		Login ob = new Login(customer.getEmail(), customer.getPassword(), "Customer", customer.getId());
 		lService.savetologin(ob);
 
@@ -50,6 +50,11 @@ public class CustomerServiceImpl implements CustomerService {
 		return cdao.findById(id).orElse(null);
 	}
 
+	@Override
+	public Customer getCustomerbyEmail(String email) {
+		return cdao.getbyemail(email);
+	}
+	
 	@Override
 	public void updatecustomer(Customer cust) {
 		cdao.save(cust);

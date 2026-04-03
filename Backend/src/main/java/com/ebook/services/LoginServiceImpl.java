@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ebook.daos.LoginDao;
 import com.ebook.entites.Admin;
+import com.ebook.entites.Customer;
 import com.ebook.entites.Login;
 import com.ebook.supports.LoginDTO;
 
@@ -37,6 +38,12 @@ public class LoginServiceImpl implements LoginService{
 	@Override
 	public Login savetologin(Login ob) {
 		return ldao.save(ob);
+	}
+
+	@Override
+	public Optional<Customer> isCustomerPresent(String email) {
+		Optional<Customer> customer = ldao.findByEmail(email);
+		return customer;
 	}
 	
 }

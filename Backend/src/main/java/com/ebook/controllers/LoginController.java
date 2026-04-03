@@ -1,19 +1,19 @@
 package com.ebook.controllers;
 
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ebook.entites.Customer;
 import com.ebook.entites.Login;
 import com.ebook.services.CustomerService;
+import com.ebook.services.EmailService;
 import com.ebook.services.LoginService;
 import com.ebook.supports.CustomerDTO;
 import com.ebook.supports.LoginDTO;
@@ -29,6 +29,8 @@ public class LoginController {
 	LoginService lService;
 	@Autowired
 	CustomerService cService;
+	@Autowired
+	EmailService eService;
 	
 	@PostMapping("/validate")
 	public ResponseEntity<?> validate(@RequestBody LoginDTO dto){
@@ -63,6 +65,18 @@ public class LoginController {
 		}
 		cService.registerCustomer(cust);
 		return ResponseEntity.ok("Registered Successfully");
+	}
+	
+	@PostMapping("/generate-otp/{email}")
+	public ResponseEntity<?> forgotPassword(@PathVariable("email") String email) {
+		System.out.println("Generating OTP for "+email);
+		Customer customer = cService.getCustomerbyEmail(email);
+		if(customer == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		String otp = eService.sendEmailWithOTP(email,"E-Book Management System");
+		System.out.println(otp);
+		return ResponseEntity.ok("OTP sent to your email.");
 	}
 	
 }

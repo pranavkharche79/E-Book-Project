@@ -3,6 +3,7 @@ package com.ebook.services;
 import java.util.Optional;
 
 import com.ebook.entites.Admin;
+import com.ebook.entites.Customer;
 import com.ebook.entites.Login;
 import com.ebook.supports.LoginDTO;
 
@@ -15,5 +16,7 @@ public interface LoginService {
 	Optional<Login> validategoogle(LoginDTO dto);
 	
 	Login savetologin(Login ob);
+	
+	Optional<Customer> isCustomerPresent(String email);
 
 }

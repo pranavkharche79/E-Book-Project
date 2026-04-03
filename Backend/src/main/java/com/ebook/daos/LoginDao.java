@@ -1,13 +1,19 @@
 package com.ebook.daos;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import com.ebook.entites.Customer;
 import com.ebook.entites.Login;
 
 public interface LoginDao extends JpaRepository<Login,String>{
 
 	@Query(value = "select * from logins where email=? and password=?",nativeQuery = true)
 	Login validate(String username, String password);
+
+	@Query(value = "select * from logins where email=?",nativeQuery = true)
+	Optional<Customer> findByEmail(String email);
 	
 }

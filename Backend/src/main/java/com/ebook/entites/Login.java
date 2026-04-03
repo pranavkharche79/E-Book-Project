@@ -12,6 +12,7 @@ public class Login {
 	private String password;
 	private String role;
 	private long id;
+	private String otp;
 	
 	public Login() {
 		super();
@@ -56,6 +57,14 @@ public class Login {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public String getOtp() {
+		return otp;
+	}
+
+	public void setOtp(String otp) {
+		this.otp = otp;
 	}
 
 	@Override

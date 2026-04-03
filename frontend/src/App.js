@@ -11,6 +11,7 @@ import CustomerProfile from "./Components/CustomerProfile";
 import ViewCart from "./Components/ViewCart";
 import Success from "./Components/Success";
 import Failed from "./Components/Failed";
+import ForgotPassword from "./Components/ForgotPassword";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/register" element={<Register />} />
           <Route path="/addbook" element={<AddBook />} />
           <Route path="/addcategory" element={<AddCategory />} />
